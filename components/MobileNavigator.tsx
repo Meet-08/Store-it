@@ -17,13 +17,13 @@ import FileUploader from "@/components/FileUploader";
 import { signOutUser } from "@/lib/actions/user.actions";
 
 const MobileNavigator = ({
-  ownerId,
+  $id: ownerId,
   accountId,
   fullName,
   email,
   avatar,
 }: {
-  ownerId: string;
+  $id: string;
   accountId: string;
   fullName: string;
   email: string;
@@ -95,7 +95,7 @@ const MobileNavigator = ({
           </nav>
           <Separator className="my-5 bg-light-200/20" />
           <div className="flex flex-col justify-between gap-5 pb-5">
-            <FileUploader />
+            <FileUploader accountId={accountId} ownerId={ownerId} />
             <button
               type="submit"
               className="mobile-sign-out-button"

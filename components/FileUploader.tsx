@@ -5,6 +5,10 @@ import { Button } from "@/components/ui/button";
 import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
 import Image from "next/image";
 import Thumbnail from "@/components/Thumbnail";
+import { MAX_FILE_SIZE } from "@/constants";
+import { useToast } from "@/hooks/use-toast";
+import { uploadFile } from "@/lib/actions/file.action";
+import { usePathname } from "next/navigation";
 
 const FileUploader = ({
   ownerId,
@@ -16,12 +20,41 @@ const FileUploader = ({
   className?: string;
 }) => {
   const [files, setFiles] = useState<File[]>([]);
+  const { toast } = useToast();
+  const path = usePathname();
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    setFiles(acceptedFiles);
-    // Do something with the files
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      setFiles(acceptedFiles);
+
+      const uploadPromises = acceptedFiles.map(async (file) => {
+        if (file.size > MAX_FILE_SIZE) {
+          setFiles((prev) => prev.filter((f) => f.name !== file.name));
+          return toast({
+            description: (
+              <p className="body-2 text-white">
+                <span className="font-semibold">{file.name}</span>
+                is to large. Max file size is 50MB
+              </p>
+            ),
+            className: "error-toast",
+          });
+        }
+
+        return uploadFile({ file, ownerId, accountId, path }).then(
+          (uploadedFile) => {
+            if (uploadedFile) {
+              setFiles((prev) => prev.filter((f) => f.name !== file.name));
+            }
+          },
+        );
+      });
+      // Do something with the files
+      await Promise.all(uploadPromises);
+    },
+    [ownerId, accountId, path],
+  );
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   const handleRemoveFile = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>,
@@ -81,12 +114,6 @@ const FileUploader = ({
             );
           })}
         </ul>
-      )}
-
-      {isDragActive ? (
-        <p>Drop the files here ...</p>
-      ) : (
-        <p>Drag 'n' drop some files here, or click to select files</p>
       )}
     </div>
   );
