@@ -22,7 +22,6 @@ const getUserByEmail = async (email: string) => {
 
 const handleError = (e: unknown, message: string) => {
   console.log(e + message);
-  throw e;
 };
 
 export const sendEmailOTP = async ({ email }: { email: string }) => {
@@ -96,19 +95,24 @@ export const verifySecret = async ({
 };
 
 export const getCurrentUser = async () => {
-  const { account, database } = await createSessionClient();
+  try {
+    const { account, database } = await createSessionClient();
 
-  const result = await account.get();
+    const result = await account.get();
 
-  const user = await database.listDocuments(
-    appwriteConfig.databaseId,
-    appwriteConfig.usersCollectionId,
-    [Query.equal("accountId", result.$id)],
-  );
+    const user = await database.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.usersCollectionId,
+      [Query.equal("accountId", result.$id)],
+    );
 
-  if (user.total <= 0) return null;
+    if (user.total <= 0) return null;
 
-  return parseStringify(user.documents[0]);
+    return parseStringify(user.documents[0]);
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
 };
 
 export const signOutUser = async () => {
