@@ -262,7 +262,7 @@
     }
 
     .recent-file-details {
-        @apply flex w-full flex-col xl:flex-row xl:justify-between !important;
+        @apply flex w-full flex-row justify-between !important;
     }
 
     .recent-file-name {
@@ -405,7 +405,7 @@
     }
 
     .uploader-preview-list {
-        @apply fixed bottom-10 right-10 z-50 flex size-full h-fit max-w-[480px] flex-col gap-3 rounded-[20px] bg-white p-7 shadow-drop-3 !important;
+        @apply fixed bottom-10 md:right-10 right-5 z-50 flex size-full h-fit max-w-[480px] flex-col gap-3 rounded-[20px] bg-white p-7 shadow-drop-3 !important;
     }
 
     .uploader-preview-item {
