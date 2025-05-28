@@ -58,6 +58,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
     setIsModelOpen(false);
     setIsDropdownOpen(false);
     setAction(null);
+    setIsLoading(false);
     setName(file.name.split(".")[0]);
   };
 
@@ -98,7 +99,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
           <DialogTitle className="text-center text-light-100">
             {label}
           </DialogTitle>
-          
+
           {value === "rename" && (
             <Input
               type="text"

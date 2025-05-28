@@ -67,9 +67,7 @@ export const Chart = ({ used = 0 }: { used: number }) => {
                           className="chart-total-percentage"
                         >
                           {used && calculatePercentage(used)
-                            ? calculatePercentage(used)
-                                .toString()
-                                .replace(/^0+/, "")
+                            ? calculatePercentage(used).toString()
                             : "0"}
                           %
                         </tspan>
