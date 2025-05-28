@@ -1,6 +1,7 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
+import { rules } from "eslint-config-next";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,6 +18,11 @@ const eslintConfig = [
     "plugin:tailwindcss/recommended",
     "prettier",
   ),
+  {
+    rules: {
+      "tailwindcss/enforces-shorthand": "off",
+    },
+  },
 ];
 
 export default eslintConfig;

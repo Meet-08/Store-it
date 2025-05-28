@@ -6,20 +6,24 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "static-00.iconduck.com",
+        hostname: "static-00.iconduck.com"
       },
       {
         protocol: "https",
-        hostname: "cloud.appwrite.io",
+        hostname: "cloud.appwrite.io"
       },
-    ],
+      {
+        protocol: "https",
+        hostname: "fra.cloud.appwrite.io"
+      }
+    ]
   },
 
   experimental: {
     serverActions: {
-      bodySizeLimit: "50mb",
-    },
-  },
+      bodySizeLimit: "50mb"
+    }
+  }
 };
 
 export default nextConfig;
