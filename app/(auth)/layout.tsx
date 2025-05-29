@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { Toaster } from "react-hot-toast";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -40,6 +41,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
         {children}
       </section>
+      <Toaster />
     </div>
   );
 };

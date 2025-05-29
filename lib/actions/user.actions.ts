@@ -71,9 +71,11 @@ export const createAccount = async ({
 export const verifySecret = async ({
   accountId,
   password,
+  type,
 }: {
   accountId: string;
   password: string;
+  type: string;
 }) => {
   try {
     const { account } = await createAdminClient();

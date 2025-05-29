@@ -17,7 +17,8 @@ import {
 } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
 import { sendEmailOTP, verifySecret } from "@/lib/actions/user.actions";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const OtpModel = ({
   accountId,
@@ -30,14 +31,19 @@ const OtpModel = ({
   const [isOpen, setIsOpen] = useState(true);
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const path = usePathname();
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const sessionId = await verifySecret({ accountId, password });
-      if (sessionId) router.push("/");
+      const sessionId = await verifySecret({ accountId, password, type: path });
+      if (sessionId) {
+        toast.success(path.substring(1) + " successfully");
+        router.push("/");
+      }
     } catch (e) {
+      toast.error("Something went wrong");
       console.log(e);
     }
     setIsLoading(false);

@@ -18,6 +18,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createAccount, signInUser } from "@/lib/actions/user.actions";
 import OTPModel from "./OTPModel";
+import toast from "react-hot-toast";
 
 const authFormSchema = (formType: FormType) => {
   return z.object({
@@ -59,6 +60,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
       setAccountId(user.accountId);
     } catch (e) {
       setErrorMessage("Failed to create account");
+      toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }
