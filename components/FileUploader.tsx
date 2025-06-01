@@ -28,19 +28,6 @@ const FileUploader = ({
       setFiles(acceptedFiles);
 
       const uploadPromises = acceptedFiles.map(async (file) => {
-        if (file.size > MAX_FILE_SIZE) {
-          setFiles((prev) => prev.filter((f) => f.name !== file.name));
-          return toast({
-            description: (
-              <p className="body-2 text-white">
-                <span className="font-semibold">{file.name}</span>
-                is to large. Max file size is 50MB
-              </p>
-            ),
-            className: "error-toast",
-          });
-        }
-
         return uploadFile({ file, ownerId, accountId, path }).then(
           (uploadedFile) => {
             if (uploadedFile) {
